@@ -1,6 +1,7 @@
 from src.util.MongoDBHelper import getTemplatedb
 import pymongo
-
+from .HeadRepository import getHeaderAndHeadlineByTemplateId
+from .TopicRepository import getTopicsAndContentsByTemplateId
 
 templateDB = getTemplatedb()
 
@@ -15,9 +16,14 @@ def getTemplateList():
 def getTemplateById(args):
     if 'id' in args:
         template = templateDB.find_one({'id':int(args['id'])},{'_id':0})
-        print(args['id'])
+        # print(args['id'])
         if template is not None:
-            return template
+            temDict = {'template':template}
+            headDict = getHeaderAndHeadlineByTemplateId({'templateId':args['id']})
+            tcDict = getTopicsAndContentsByTemplateId({'templateId':args['id']})
+            oneTemplate = dict(dict(temDict,**headDict),**tcDict)
+            print(oneTemplate)
+            return oneTemplate
         else:
             return 'template not found!'
     else:

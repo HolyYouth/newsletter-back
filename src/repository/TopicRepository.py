@@ -12,7 +12,7 @@ def getTopicsAndContentsByTemplateId(args):
         contents=[]
         for topic in topics:
             contents.append(getContentsByTopicId({'topicId':topic['id']}))
-        return topics.append(contents)
+        return {'topics':topics,'contents':contents}
     else:
         return 'No templateId received'
         

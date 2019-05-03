@@ -3,6 +3,10 @@ import pymongo
 
 headDB = getHeaddb()
 
+
+def getHeaderAndHeadlineByTemplateId(args):
+    return {'header':getHeaderByTemplateId(args),'headline':getHeadlineByTemplateId(args)}
+
 def getHeadlineByTemplateId(args):
     if 'templateId' in args:
         headline = None
@@ -10,10 +14,7 @@ def getHeadlineByTemplateId(args):
         for hl in headDB.find({'templateId':int(args['templateId']),'type':'headline'},{'_id':0}):
             print(hl)
             headline = hl
-        if headline is None:
-            return 'Headline not found'
-        else:
-            return headline
+        return headline
     else:
         return 'No templateId received!'
 
@@ -42,14 +43,11 @@ def modifyHeadline(args):
 def getHeaderByTemplateId(args):
     if 'templateId' in args:
         header = None
-        print(headDB.find({'templateId':int(args['templateId']),'type':'header'},{'_id':0}))
+        # print(headDB.find({'templateId':int(args['templateId']),'type':'header'},{'_id':0}))
         for h in headDB.find({'templateId':int(args['templateId']),'type':'header'},{'_id':0}):
             print(h)
             header = h
-        if header is None:
-            return 'Header not found'
-        else:
-            return header
+        return header
     else:
         return 'No templateId received!'
 

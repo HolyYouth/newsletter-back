@@ -1,5 +1,6 @@
 from flask import Flask,jsonify,request
 from .. import app
+import json
 from src.repository import TemplateRepository
 from src.util.HttpRequestsHelper import requestsHelper
 # @app.route('/')
@@ -27,6 +28,10 @@ def getTemplateById():
 @app.route('/newTemplate/',methods=['post'])
 def newTemplate():
     args = requestsHelper(request)
+    # data = str(request.get_data(),encoding='utf-8')
+    # data = request.get_data()
+    # data = json.loads(request.get_data())
+    # print(args)
     return jsonify(TemplateRepository.newTemplate(args))   
 
 @app.route('/deleteTemplate/',methods=['post'])

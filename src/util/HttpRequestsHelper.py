@@ -3,6 +3,8 @@
     
 def requestsHelper(request):
     args = {}
-    for arg in request.args:
-        args[arg]=request.args.get(arg)
+    # print(request.args)
+    # print(request.form)
+    for arg in request.form:
+        args[arg]=request.form.get(arg)
     return args
