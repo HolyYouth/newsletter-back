@@ -17,10 +17,17 @@ def getTopicsAndContentsByTemplateId(args):
         return 'No templateId received'
         
 def addTopic(args):
-    if 'templateId' in args and 'fatherId' in args:
-        newId = int(args['templateId'] + args['fatherId'])
+    # if 'templateId' in args and 'fatherId' in args:
+    if 'templateId' in args:
+        newId = 0
+        for id in topicDB.find({},{'_id':0,'id':1},sort=[('id',pymongo.DESCENDING)],limit=1):
+            # print(id)
+            newId = int(id['id']) + 1
+        # newId = int(args['templateId'] + args['fatherId'])
         args['id'] = newId
+        args['templateId'] = int(args['templateId'])
         topicDB.insert_one(args)
+        print(args)
         return 'Add topic success'
     else:
         return 'Information missed, add topic failed!'

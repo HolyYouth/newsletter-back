@@ -52,9 +52,10 @@ def getHeaderByTemplateId(args):
         return 'No templateId received!'
 
 def newHeader(args):
-    if getHeaderByTemplateId(args) != 'Header not found':
-        return 'Header exists or bad http request'
-    if 'templateId' in args and 'imgSrc' in args and 'createdBy' in args and 'createdTime' in args and 'lastModifiedBy' in args and 'lastModifiedTime' in args:
+    if getHeaderByTemplateId(args) != None:
+        return ''
+    # if 'templateId' in args and 'imgSrc' in args and 'createdBy' in args and 'createdTime' in args and 'lastModifiedBy' in args and 'lastModifiedTime' in args:
+    if 'templateId' in args and 'imgSrc' in args  and 'createdTime' in args  and 'lastModifiedTime' in args:
         newId = 0
         for id in headDB.find({},{'_id':0,'id':1},sort=[('id',pymongo.DESCENDING)],limit=1):
             newId = int(id['id']) + 1
@@ -62,9 +63,11 @@ def newHeader(args):
         args['type'] = 'header'
         args['templateId'] = int(args['templateId'])
         headDB.insert_one(args)
+        print(args)
         return 'New header success!'
     else:
-         return 'Information missed, new header failed!'
+        print(2)
+        return 'Information missed, new header failed!'
 
 def modifyHeader(args):
     if 'templateId' in args:

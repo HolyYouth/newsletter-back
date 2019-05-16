@@ -7,8 +7,10 @@ contentDB = getContentdb()
 def getContentsByTopicId(args):
     if 'topicId' in args:
         contents = []
-        contents.append(contentDB.find({'topicId':int(args['topicId'])}))
-        return {args['topicId']:contents}
+        for content in contentDB.find({'topicId':int(args['topicId'])},{'_id':0}):
+            contents.append(content)
+        if contents != []:
+            return {args['topicId']:contents}
     else:
         return 'No topicId received'
 
